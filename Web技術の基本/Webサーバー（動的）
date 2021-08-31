@@ -1,0 +1,23 @@
+server.mount_proc("/time") do |req, res|
+  # レスポンス内容を出力（どういった仕事をするか）
+  body = "<html><body></body></html>"
+  res.status = 200
+  res['Content-Type'] = 'text/html'
+  res.body = body
+end
+
+server.mount_proc("dir) はファイルをどの仮想マシン上で認識させるかを設定する。
+server.mount_proc("/time")とはそのファイルを仮想マシン上で認識させる場所を/timeにするということ
+
+/timeにリクエストがきたらブロックの中身を返す。
+server.mount_proc("/time") do |req, res| 
+  # レスポンス内容を出力
+  # 時間をリクエストボディに詰めてクライアントに返す。
+  time = DateTime.now
+  body = time.to_s
+  res.status = 200
+  res['Content-Type'] = 'text/html'
+  res.body = body
+end
+
+サーバはHTML形式の文字列をクライアントに返す。Rubyなどの他の言語は、HTMLの内容をどう変化させるかを記載するに過ぎない。
