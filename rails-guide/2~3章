@@ -1,2 +1,22 @@
 rails ○○というコマンドを行うと、システムのバージョンでコマンドが実行されることになる。
+
 bin/rails ○○のコマンドを行うと、gem.fileに書いてあるバージョンで処理が行われる。
+
+railsコマンドを利用してのモデルの作成の仕方
+
+データベースの作成の仕方
+
+slimは文字のインデントが非常に重要であるため、タイポと同じくらいインデントのミスにも気をつける。
+
+td = link_to task.name, taskで最後のtaskオブジェクトからRailsが推測してURLを作成してくれる。
+
+= form_with model: task, local: true do |f|
+https://pikawaka.com/rails/form_with
+https://qiita.com/mom0tomo/items/e1e3fd29729b2d112a48
+
+edit_task_pathでは後ろに(task)をつけるかどうか
+showなどのtask:idが決まっているものに関しては:idをわざわざ参照しなくても良いので、いらない。
+indexなど、様々なidのものを表示しなければならない時はつける。
+
+index.html.slimとshow.html.slimの削除でほぼ同じコードなのにtaskと@taskで違いがある。
+edit_task_pathの件とにているが、indexではeachメソッドで@taskが振り分けられているので、実質@taskと同じ。
