@@ -20,3 +20,17 @@ indexなど、様々なidのものを表示しなければならない時はつ�
 
 index.html.slimとshow.html.slimの削除でほぼ同じコードなのにtaskと@taskで違いがある。
 edit_task_pathの件とにているが、indexではeachメソッドで@taskが振り分けられているので、実質@taskと同じ。
+
+.nav.justify-content-end （ナビゲーションリンク.左端に寄せる）
+  = link_to '一覧', task_path, class: 'nav-link'
+
+.mb-3 (bootstrapでmergin bottomという意味)
+table.table.table-hover（slimではtable.クラス名.テーブル効果 と記載する）
+  thead.thead-default(tableのheaderを水平にする。)
+    tr
+      th= Task.human_attribute_name(:name) human_attribute_nameでja.ymlから引数の日本語訳を引っ張ってくる。
+      th= Task.human_attribute_name(:created_at)
+  tbody
+    - @task.each do |task|
+      th= task.name
+      th= task.created_at

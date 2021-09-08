@@ -1,0 +1,128 @@
+= link_to "登録する", new_task_path, class :'btn btn-primary'
+
+= form_with model: @task, local: true do |f|
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control', id: 'task_name'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 5, class: 'form-control', id: 'task_description'
+  = f.submit nil, class: 'btn btnprimary'
+
+  def create
+    @task = Task.new(task_params)
+    @task.save!
+    redirect_to task_url, notice: "#{@task}を保存しました"
+  end
+
+  private
+
+  def task_params
+    params_require(:task).permit(:name, :description)
+  end
+
+タスク一覧写経
+  h1 タスク一覧
+  = link_to '新規登録', new_task_path, class 'btn btnprimary'
+
+タスクの詳細
+  .nav.justifay_content_end
+    = link_to '一覧', task_path, class: 'nav_link'
+  .mb-3
+  table.table.table_hover
+  thead.thead_default
+    tr
+      th= Task.human_attribute_name(:id)
+      td= Task.id
+    tr
+      th= Task.human_attribute_name(:name)
+      td= Task.name
+    tr
+      th= Task.human_attribute_name(:description)
+      # 詳しい説明は、複数行に記載されるため、それを問題なく表示させる。
+
+      td= simple_format(h(@task.description), sanitize: false, wrapper_tag: "div")
+    tr
+      th= Task.human_attribute_name(:created_at)
+      td= Task.created_at
+    tr
+      th= Task.human_attribute_name(:updated_at)
+      td= Task.updated_at
+
+一覧画面・編集画面の追加
+h1 タスク一覧
+= link_to '新規登録', new_task_path, class = 'btn btnprimary'
+
+table.table.table_hover
+  thead.thead_default
+    tr
+      th= Task.human_attribute_name(:name)
+      th= Task.human_attribute_name(:created_at)
+      th
+    tr
+      td= @task.name
+      td= @task.created_at
+      td= link_to '編集', edit_task_path(task), class = 'btn btnprimary mr-3'
+
+詳細画面
+h1 タスクの詳細
+ .nav.justifay_content_end
+  = link_to '一覧', task_path, class = 'btn btnprimary'
+
+table.table.table_hover
+  thead.thead_default
+   tr
+    th= Task.human_attribute_name(:id)
+    td= @task.id
+   tr
+    th= Task.human_attribute_name(:name)
+    td= @task.name
+   tr
+    th= Task.human_attribute_name(:description)
+    td= sample_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div")
+   tr
+    th= Task.human_attribute_name(:created_at)
+    td= @task.created_at
+   tr
+    th= Task.human_attribute_name(:updated_at)
+    td= @task.updated_at
+
+= link_to '編集', edit_task_path, class =  'btn btnprimary'
+
+editとupdateアクションの追加
+def edit
+  @task = Task.find(params[:id])
+end
+
+def update
+  task = Task.find(params[:id])
+  task.update!(task_params)
+  redirect_to task_path, notice "#{task.name}を更新しました"
+end
+
+編集画面
+h1 タスクの編集
+
+.nav.justifay_content_end
+ = link_to '一覧', tasks_path, class = 'nav_link'
+
+  = form_with model: task, local: true do |f|
+    .form_group
+      = f.label :name
+      = f.text_field: name, class: 'form_control', id: 'task_name'
+    .form_group
+      = f.label :description
+      = f.text_area :description, class: 'form_control', id: 'task_description'
+    = f.submit, update_task_path, class = 'btn btnprimary'
+
+削除ボタンの追加
+= link_to '削除', task, method: delete, data: {confirm: "#{task.name}を削除しますがよろしいですか？"}class = (btn btnprimary)
+
+destroyアクションの追加
+def destroy
+  task = Task.find(params[:id])
+  task.destroy
+  redirect_to tasks_url, notice: "#{task.name}を削除しました。"
+end
+
+  
